@@ -16,12 +16,9 @@ public class State implements Comparable<State> {
 	int cost;
 	int eva_cost;
 	static int[][] goal;
-	
+	boolean out = false;
 	
 
-
-
-	
 	//constructor
 	public State(int[][] data){
 		state = new int[0][0];
@@ -335,7 +332,7 @@ public class State implements Comparable<State> {
 					}
 				}
 			}
-		this.eva_cost +=  moves*5;
+		this.eva_cost =this.eva_cost+  moves*5;
 	}
 	//special case for double movement left, or right
 	private void manhattan2() {
@@ -349,7 +346,7 @@ public class State implements Comparable<State> {
 					}
 				}
 			}
-		this.eva_cost +=  (moves-4)*5;
+		this.eva_cost = this.eva_cost+  (moves-4)*5;
 	}
 	//special case for double movement up, or down
 	private void manhattan3() {
@@ -363,7 +360,7 @@ public class State implements Comparable<State> {
 					}
 				}
 			}
-		this.eva_cost += (moves-3)*5;
+		this.eva_cost =this.eva_cost+ (moves-3)*5;
 	}
 	
 	
@@ -387,6 +384,13 @@ public class State implements Comparable<State> {
 				goal[i][j] = target[i][j];
 			}
 		}
+	}
+	
+	public int set_start_eva_cost() {
+		State temp = new State(this);
+		temp.allowed_operators();
+		int ans =  temp.queue.poll().cost;
+		return ans;
 	}
 	
 	@Override

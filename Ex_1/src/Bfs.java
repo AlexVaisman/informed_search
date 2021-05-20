@@ -3,6 +3,16 @@ import java.util.LinkedList;
 import java.util.Queue;
 public class Bfs {
 	
+	String moves;
+	int id;
+	int cost;
+	
+	public Bfs() {
+		moves="";
+		id=0;
+		cost=0;
+	}
+	
 	public int bfs(State start , State goal) {
 		//initializing queue and hash table, adding first node to queue
 		Queue<State> queue = new LinkedList<>();                     
@@ -24,11 +34,9 @@ public class Bfs {
 				State child_node = current_node.queue.remove();
 				if(!(hash_table.containsKey(child_node.toString())) && !(queue.contains(child_node))  ) {
 					if(goal.equals(child_node)) {
-						System.out.println("found answer");
-						System.out.println(child_node);
-						System.out.println("Moves: "+child_node.moves);
-						System.out.println("Num: "+child_node.id);
-						System.out.println("Cost: "+child_node.cost);
+						moves = child_node.moves;
+						id = child_node.id;
+						cost =child_node.cost;
 						return 0;
 					}else {
 						queue.add(child_node);
@@ -36,7 +44,6 @@ public class Bfs {
 				}
 			}
 		}
-		System.out.println("major error lol check bfs line 31");
 		return 0;
 	}
 	

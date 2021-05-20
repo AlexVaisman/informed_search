@@ -1,6 +1,10 @@
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 import javax.swing.plaf.SliderUI;
@@ -13,6 +17,7 @@ public class Ex1 {
 	private static Boolean open;
 	private static int [][] start_pos; //[row][column]
 	private static int [][] goal_pos;  //[row][column]
+	
 	
 
 	
@@ -89,44 +94,77 @@ public class Ex1 {
 	
 	
 
-	
+	public static void write_file(String moves, int cost, int id, long runtime)  {
+		File file = new File("src\\output.txt");
+		FileWriter fw;
+		try {
+			fw = new FileWriter(file);
+			PrintWriter pw = new PrintWriter(fw);
+			pw.println(moves);
+			pw.println("Num: "+id);
+			pw.println("Cost: "+cost);
+			if(time) {
+				pw.println(runtime*0.001+" seconds");
+			}
+			
+			pw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
 	public static void main(String[] args) {
 		read_file();
 		Bfs b =  new Bfs();
 		Dfid d = new Dfid();
 		Astar a = new Astar();
+		String moves ="";
+		int id = 0;
+		int cost = 0;
+		long runtime = 0;
 		State start = new State(start_pos);
 		State goal = new State(goal_pos);
-//		b.bfs(start, goal);
-		System.out.println();
-//
-//		d.dfid(start, goal);
-//		System.out.println(d.cost);
-//		System.out.println(d.moves);
-//		System.out.println(d.id);
-		a.a_star(start, goal);
-		System.out.println("Cost: "+a.cost);
-		System.out.println("Num: "+a.id);
-		System.out.println(a.moves);
 		
 		
+		if(algo_name.equals("BFS")) {
+			long time_s = System.currentTimeMillis();
+			b.bfs(start, goal);
+			long time_f = System.currentTimeMillis();
+			runtime = (time_f-time_s)/1000;
+			moves = b.moves;
+			id = b.id;
+		    cost = b.cost;
+		}
+		if(algo_name.equals("DFID")) {
+			long time_s = System.currentTimeMillis();
+			d.dfid(start, goal);
+			long time_f = System.currentTimeMillis();
+			runtime = (time_f-time_s);
+			moves = d.moves;
+			id = d.id;
+		    cost = d.cost;
+		}
+		if(algo_name.equals("A*")) {
+			long time_s = System.currentTimeMillis();
+			a.a_star(start, goal);
+			long time_f = System.currentTimeMillis();
+			runtime = (time_f-time_s);
+			moves = a.moves;
+			id = a.id;
+		    cost = a.cost;
+		}
+		if(algo_name.equals("IDA*")) {
+			
+		}
+		if(algo_name.equals("DFBnB")) {
+			
+		}
 		
-		//printing status
-//		System.out.println("Algo: "+algo_name+" Time: "+time+" Open: "+open);
-//		System.out.println("Start pos:");
-//		for(int i = 0;i<start_pos.length;i++) {
-//			for(int j = 0;j<start_pos[0].length;j++) {
-//				System.out.print(start_pos[i][j]+", ");
-//			}
-//			System.out.println();
-//		}
-//		System.out.println("Goal pos:");
-//		for(int i = 0;i<goal_pos.length;i++) {
-//			for(int j = 0;j<goal_pos[0].length;j++) {
-//				System.out.print(goal_pos[i][j]+", ");
-//			}
-//			System.out.println();
-//		}
+		write_file(moves,cost,id,runtime);
+		
+		
+
 	}
 
 }

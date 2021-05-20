@@ -14,7 +14,6 @@ public class Dfid {
 	}
 	
 	public boolean dfid(State start ,State goal) {
-		
 		int depth = 1;
 		while(depth<300) {
 			//reseting root node variable

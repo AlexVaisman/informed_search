@@ -13,6 +13,7 @@ public class Astar {
 	}
 	
 	public boolean a_star(State start, State goal) {
+		start.set_start_eva_cost();
 		start.set_goal(goal.state);  //saving goal state for heuristic function
 		PriorityQueue<State> pq = new PriorityQueue<State>();
 		Hashtable<String, State> hash_table = new Hashtable<>();
